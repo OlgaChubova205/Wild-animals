@@ -1,0 +1,657 @@
+задача 1.1
+
+
+
+wild_animals
+  ├── index.html
+  └── pictures
+    ├── elephant.jpg
+    ├── giraffe.jpg
+    └── paw_print.jpg
+    <!DOCTYPE html>
+<html>
+
+# Переходим в директорию будущего репозитория
+$ cd wild_animals
+
+
+# Создаем репозиторий
+$ git init
+Initialized empty Git repository in /Users/tati/Documents/Git Repos/Course Git/wild_animals/.git/
+
+
+# Структура папки .git сразу после создания репозитория
+$ tree .git
+.git
+├── HEAD
+├── config
+├── description
+├── hooks
+├── info
+│   └── exclude
+├── objects
+│   ├── info
+│   └── pack
+└── refs
+    ├── heads
+    └── tags
+
+
+# Выводим содержимое файла конфигурации Git для текущего репозитория
+$ cat .git/config 
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+
+
+# Задаем имя и email пользователя для текущего репозитория
+$ git config user.name smartiqa
+$ git config user.email smartiqa@gmail.com
+
+
+# Проверяем, что файл .git/config изменился соответствующим образом
+$ cat .git/config 
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[user]
+	name = smartiqa
+	email = smartiqa@gmail.com
+  
+  
+  # Выводим структуру папки .git
+# Файл .git/index отсутствует
+# В папке .git/objects только две пустые директории info и pack
+$ tree .git
+.git
+├── HEAD
+├── config
+├── description
+├── hooks
+├── info
+│   └── exclude
+├── objects
+│   ├── info
+│   └── pack
+└── refs
+    ├── heads
+    └── tags
+
+
+# Выводим содержимое файла HEAD
+# В нем лежит ссылка на ветку main
+$ cat .git/HEAD 
+ref: refs/heads/main
+
+
+# Текущее состояние рабочей директории
+# Есть неотслеживаемые файлы
+$ git status
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	index.html
+	pictures/
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+
+# Добавляем все файлы в индекс
+$ git add *
+
+
+# Снова проверяем статус - файлы попали в индекс и теперь готовы к коммиту
+$ git status
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+	new file:   index.html
+	new file:   pictures/elephant.jpg
+	new file:   pictures/giraffe.jpg
+	new file:   pictures/paw_print.jpg
+
+
+# Проверяем содержимое директории .git
+# Появился файл индекса (.git/index)
+# Появились Blob-файлы в папке .git/objects
+$ tree .git
+.git
+├── HEAD
+├── config
+├── description
+├── hooks
+├── index
+├── info
+│   └── exclude
+├── objects
+│   ├── 9f
+│   │   └── ef2e52dc23c9ade52eb015f14664d3391cf0af
+│   ├── ce
+│   │   └── 4b62e40390837fbe5a59d2c3012b2d48083344
+│   ├── e9
+│   │   └── e8bb8d58d7449048dff405d8124e45dacf6e68
+│   ├── eb
+│   │   └── a725d14ab5b0d42cfb3e1ee2ee2e342f545ea3
+│   ├── info
+│   └── pack
+└── refs
+    ├── heads
+    └── tags
+
+12 directories, 21 files
+
+
+# Делаем коммит
+$ git commit -m "G-02: Initial"
+[main (root-commit) ac5f3e4] G-02: Initial
+ 4 files changed, 36 insertions(+)
+ create mode 100644 index.html
+ create mode 100644 pictures/elephant.jpg
+ create mode 100644 pictures/giraffe.jpg
+ create mode 100644 pictures/paw_print.jpg
+
+
+# Хэш коммита - ac5f3e4f
+$ git log
+commit ac5f3e4f4b2c023b79080a074ea47db676957745 (HEAD -> main)
+Author: smartiqa <smartiqa@gmail.com>
+Date:   Wed Dec 23 12:43:03 2020 +0300
+
+    G-02: Initial
+
+
+# Рабочая директория теперь чистая
+$ git status
+On branch main
+nothing to commit, working tree clean
+
+
+# Проверяем состояние директории .git
+# В папке .git/objects появились Tree-объекты(деревья) для хранения файловой структуры 
+# Также в папке .git/objects появился объект коммита ac/5f3e4f4b2c023b79080a074ea47db676957745
+$ tree .git
+.git
+├── COMMIT_EDITMSG
+├── HEAD
+├── config
+├── description
+├── hooks
+├── index
+├── info
+│   └── exclude
+├── logs
+│   ├── HEAD
+│   └── refs
+│       └── heads
+│           └── main
+├── objects
+│   ├── 58
+│   │   └── 8415ac22ca540d36e1bd3ff221b34e0d7e92a5
+│   ├── 75
+│   │   └── 10e930bcaf31b167f126b6319409671d7585e4
+│   ├── 9f
+│   │   └── ef2e52dc23c9ade52eb015f14664d3391cf0af
+│   ├── ac
+│   │   └── 5f3e4f4b2c023b79080a074ea47db676957745
+│   ├── ce
+│   │   └── 4b62e40390837fbe5a59d2c3012b2d48083344
+│   ├── e9
+│   │   └── e8bb8d58d7449048dff405d8124e45dacf6e68
+│   ├── eb
+│   │   └── a725d14ab5b0d42cfb3e1ee2ee2e342f545ea3
+│   ├── info
+│   └── pack
+└── refs
+    ├── heads
+    │   └── main
+    └── tags
+
+18 directories, 28 files
+
+
+# Также изменился указатель на HEAD ветки
+# Теперь он указывает на наш коммит ac5f3e4f
+$ cat .git/refs/heads/main 
+ac5f3e4f4b2c023b79080a074ea47db676957745
+
+
+# Правим опечатку в файле index.html: 'Elehant' на 'Elephant'
+…
+    <h2>Elephant</h2>
+…
+
+
+# После правки в рабочей директории появился измененный файл index.html
+$ git status
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   index.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+
+# Добавляем измененный файл в индекс
+$ git add index.html 
+
+
+# Файл index.html теперь готов к коммиту
+$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   index.html
+
+
+# Делаем коммит
+$ git commit -m "G-02: Fixed typo in Elephant"
+[main 9006ea6] G-02: Fixed typo in Elephant
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+
+# Хэш второго коммита - 9006ea6f
+$ git log
+commit 9006ea6f20e1f0bbf0b4a800ebd09ca3f974339f (HEAD -> main)
+Author: smartiqa <smartiqa@gmail.com>
+Date:   Wed Dec 23 12:59:38 2020 +0300
+
+    G-02: Fixed typo in Elephant
+
+commit ac5f3e4f4b2c023b79080a074ea47db676957745
+Author: smartiqa <smartiqa@gmail.com>
+Date:   Wed Dec 23 12:43:03 2020 +0300
+
+    G-02: Initial
+    
+    
+    # Добавляем блок информации о кенгуру в index.html
+…
+    <h2>Kangaroo</h2>
+    <img width=350px src="pictures/kangaroo.jpg">
+    <p><b>Area:</b> Australia</p>
+    <p><b>Weight:</b> 20-80kg</p>
+    <p><b>Height:</b> 1,5m</p>
+    <br>
+…
+
+
+# Добавляем в папку pictures изображение кенгуру kangaroo.jpg
+
+
+
+# Появились изменения в файле index.html
+# Также появился новый неотслеживаемый файл kangaroo.jpg
+# Эти изменения пока не добавлены в индекс
+$ git status
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   index.html
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	pictures/kangaroo.jpg
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+
+# Добавляем изменения в индекс
+$ git add *
+
+
+# Изменения готовы к коммиту
+$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   index.html
+	new file:   pictures/kangaroo.jpg
+
+
+# Делаем коммит
+$ git commit -m "G-02: Added new info block for kangaroo"
+[main 924a9dd] G-02: Added new info block for kangaroo
+ 2 files changed, 7 insertions(+)
+ create mode 100644 pictures/kangaroo.jpg
+
+
+# Рабочая директория снова чистая
+tati$ git status
+On branch main
+nothing to commit, working tree clean
+
+
+# Хэш нового коммита - 924a9d
+$ git log
+commit 924a9ddb4e2cff13472605a33c950cd77a83f297 (HEAD -> main)
+Author: smartiqa <smartiqa@gmail.com>
+Date:   Wed Dec 23 13:30:55 2020 +0300
+
+    G-02: Added new info block for kangaroo
+
+commit 9006ea6f20e1f0bbf0b4a800ebd09ca3f974339f
+Author: smartiqa <smartiqa@gmail.com>
+Date:   Wed Dec 23 12:59:38 2020 +0300
+
+    G-02: Fixed typo in Elephant
+
+commit ac5f3e4f4b2c023b79080a074ea47db676957745
+Author: smartiqa <smartiqa@gmail.com>
+Date:   Wed Dec 23 12:43:03 2020 +0300
+
+    G-02: Initial
+# Текущее состояние рабочей директории
+# Есть неотслеживаемые файлы
+$ git status
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	index.html
+	pictures/
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+
+
+задача 2.2
+
+
+
+mat_lib
+    ├─docs
+    │   └─math_lib_docs.txt
+    │
+    └─pyfiles
+            └─factorial.py
+            └─test.py
+            └─trigonometry.py
+            
+            
+            This is the library which designation is to implement some math functions
+            
+            def factorial(x):
+    ans = 1
+
+    if x < 0:
+        raise ValueError('x must be greater than 0')
+
+    for i in range(1, x+1):
+        ans *= i
+    
+    return ans
+
+from factorial import factorial as fct
+
+def sin(x):
+    sin = 1 - (x**2/fct(2)) + (x**4/fct(4)) - (x**6/fct(6)) + (x**8/fct(8)) - (x**10/fct(10))
+    return round(sin, 5)
+    
+    
+    from trigonometry import sin
+import math
+
+pi = math.pi
+print('pi:', pi)
+for alpha in [0, pi, pi/2, pi/3, pi/4, pi/6]:
+    print(f'For angle: {0 if alpha == 0 else "pi/"+str(int(pi/alpha))}, Sine  is ~ {sin(alpha)}')
+    
+    
+    1) Инициализируйте репозиторий в папке mat_lib
+
+2) Задайте имя пользователя и email глобально
+    1. Проверьте, что изменения внесены в файл глобальных настроек .gitconfig
+    2. Проверьте, что файл локальных настроек .git/config не был изменен
+
+3) Изучите содержимое папки .git/
+    1. Узнайте, на что сейчас указывает HEAD
+    2. Просмотрите файл, на который указывает HEAD (в этом пункте есть подвох)
+
+4) Добавьте все файлы в индекс
+
+5) Сделайте первый коммит
+    1. Просмотрите объект коммита, найдите хэш объекта-дерева корня репозитория
+    2. Просмотрите объект дерева корня репозитория
+    3. Проверьте, на что указывает HEAD сейчас
+    4. Просмотрите файл, на который указывает HEAD
+    5. Ответьте на вопрос: на что указывает текущая ветка? Для этого просмотрите на объект, на который указывает ветка.
+
+6) Выполните файл test.py
+    1. Просмотрите статус файлов, чтобы обнаружить, что появились файлы кэша
+
+7) Сделайте второй коммит
+    1. Просмотрите объект коммита, найдите хэш родительского коммита
+    2. Посмотрите, на что сейчас указывает HEAD
+    3. Проверьте файл, на который указывает HEAD 
+    4. Узнайте, на что указывает текущая ветка. Для этого просмотрите на объект, на который указывает ветка.
+
+
+
+$ git init
+Initialized empty Git repository in C:/Users/DKay7/Desktop/mat_lib/.git/
+
+# Чтобы задать имя пользователя глобально, 
+# нужно воспользоваться утилитой git config c ключом --global
+$ git config --global user.name daniil.k
+$ git config --global user.email daniil.k@email.com
+
+
+# Проверим, что файл действительно изменился
+$ cat c:/users/daniil_k/.gitconfig
+[filter "lfs"]
+        clean = git-lfs clean -- %f
+        smudge = git-lfs smudge -- %f
+        process = git-lfs filter-process
+        required = true
+[user]
+        name = daniil.k
+        email = daniil.k@email.com
+[init]
+        defaultBranch = main
+
+
+#  Проверим, что файл локальных настроек не изменен
+$ cat .git/config
+[core]
+        repositoryformatversion = 0
+        filemode = false
+        bare = false
+        logallrefupdates = true
+        symlinks = false
+        ignorecase = true
+        
+        # Посмотрим, на что указывает HEAD.
+# Для этого нам нужно открыть файл .git/head
+$ cat .git/head
+ref: refs/heads/main
+
+
+# Видно, что HEAD сейчас указывает на текущую ветку. 
+# Давайте посмотрим, на что же указывает эта ветка. 
+# Для этого также посмотрим на содержимое .git/refs/heads/main
+$ cat .git/refs/heads/main
+cat: .git/refs/heads/main: No such file or directory
+
+# Вот и подвох. 
+# Сейчас нет ни одного коммита, поэтому ветке не на что указывать, 
+# и она до сих пор не создана Git. 
+# Этот файл появится, когда мы сделаем первый коммит.
+
+# Добавим файлы в индекс
+$ git add -A
+
+
+# Просмотрим статус
+$ git status
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   docs/math_lib_docs.txt
+        new file:   pyfiles/factorial.py
+        new file:   pyfiles/test.py
+        new file:   pyfiles/trigonometry.py
+
+# Как видно, все наши файлы добавлены в индекс
+
+
+# Делаем коммит
+$ git commit -m "G-02: Initial commit"
+[main (root-commit) d8bf73f] G-02:  Initial commit
+ 4 files changed, 47 insertions(+)
+ create mode 100644 docs/math_lib_docs.txt
+ create mode 100644 pyfiles/factorial.py
+ create mode 100644 pyfiles/test.py
+ create mode 100644 pyfiles/trigonometry.py
+
+
+# Теперь посмотрим на объект этого коммита:
+$ git cat-file -p d8bf73f
+tree 052211c8506fa7c962a6e4f2b88106802966e865
+author daniil.k<daniil.k@email.com> 1607015871 +0300
+committer daniil.k<daniil.k@email.com> 1607015871 +0300
+
+Initial commit
+
+# Видим, что основа коммита – дерево корня репозитория
+# “tree 052211c8506fa7c962a6e4f2b88106802966e865”. 
+# Посмотрим на него внимательнее
+$ git cat-file -p 052211
+040000 tree 57a491394c9b7b87c68cc25c7afdba4fd11c5a95    docs
+040000 tree a36c5f66dcc4efcb5cd8a2821f06d3c62c1335ac    pyfiles
+# Как видно, корневое дерево состоит из деревьев для всех поддиректорий. 
+# Все так, как и должно быть.
+
+
+# Теперь посмотрим, на что указывает HEAD. 
+# Для этого достаточно открыть файл .git/head
+$ cat .git/head
+ref: refs/heads/main
+
+# Наш головной указатель все еще указывает на единственную ветку. 
+# Спойлер: так будет до тех пор, 
+# пока мы не передвинем его вручную на другой коммит или новую ветку.
+
+#Теперь посмотрим, была ли создана ветка:
+$ cat .git/refs/heads/main
+d8bf73ffdcbdb368aee192e2413b647857c478df
+
+# Как видим, ветка была создана 
+# И сейчас она даже на что-то указывает
+# Посмотрим, что это за объект “d8bf7..”.
+$ git cat-file -p d8bf7
+tree 052211c8506fa7c962a6e4f2b88106802966e865
+author daniil.k <daniil.k@email.com> 1607015871 +0300
+committer daniil.k <daniil.k@email.com> 1607015871 +0300
+
+G-02: Initial commit
+
+# Оказывается, что это наш коммит! 
+# Все согласуется с графом, приведенным в главе 9.
+
+
+# Примечание: Если у вас на компьютере не установлен интерпретатор Python,
+# и вы не хотите запускать скрипт test.py
+# то в данной части задания вы можете просто добавить любой новый файл в репозиторий
+
+
+# Выполним файл test.py
+$ cd pyfiles 
+$ py test.py
+pi: 3.1415926535897936
+For angle: 0,        Sine  is ~ 0.0
+For angle: pi/1,        Sine  is ~ -0.00045
+For angle: pi/2,        Sine  is ~ 1.0
+For angle: pi/3,        Sine  is ~ 0.86603
+For angle: pi/4,        Sine  is ~ 0.70711
+For angle: pi/6,        Sine  is ~ 0.5
+
+
+# Отлично, а теперь посмотрим на наш репозиторий
+$ ls
+__pycache__/  factorial.py  test.py  trigonometry.py
+# Как видно, появилась директория “__pycache__/” с файлами кэша.
+
+# Убедимся, что появились новые файлы:
+$ cd ../
+$ git status
+On branch main
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        pyfiles/__pycache__/
+
+nothing added to commit but untracked files present (use "git add" to track)
+# Действительно, директория “pyfiles/__pycache__/” сейчас не отслеживается.
+
+
+# Сделаем еще один коммит. 
+# При этом не забудем добавить файлы в индекс.
+$ git add -A
+$ git commit -m "G-02: cache commit"
+[G-02 290d900] G-02: cache commit
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 pyfiles/__pycache__/factorial.cpython-38.pyc
+ create mode 100644 pyfiles/__pycache__/trigonometry.cpython-38.pyc
+
+
+# Давайте посмотрим на объект этого коммита и найдем его родителя.
+$ git cat-file -p 25c3acf
+tree eff07cd789dffdee286d53662539c31bb66948e2
+parent d8bf73ffdcbdb368aee192e2413b647857c478df
+author daniil.k<daniil.k@email.com> 1607017522 +0300
+committer daniil.k<daniil.k@email.com> 1607017522 +0300
+
+G-02: cache commit
+# Родитель указан в строчке “parent d8bf73ffdcbdb368aee192e2413b647857c478df”. 
+
+
+# Можно в лишний раз убедиться, что это наш первый коммит.
+$ git cat-file -p d8bf73f
+tree 052211c8506fa7c962a6e4f2b88106802966e865
+author daniil.k<daniil.k@email.com> 1607015871 +0300
+committer daniil.k<daniil.k@email.com> 1607015871 +0300
+
+G-02: Initial commit
+
+# Все так, как мы и ожидали!
+
+
+
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
